@@ -1,6 +1,6 @@
 import sys
 
-def getnum(g: list[str], y: int, x: int) -> [(int, int)]:
+def findNum(g: list[str], y: int, x: int) -> [(int, int)]:
     s = [(y,x)]
     f, b = (x+1, x-1)
     while f<len(g[y]) and g[y][f].isnumeric():
@@ -36,8 +36,8 @@ g = [l.strip() for l in sys.stdin.readlines()]
 tot = 0
 for i in range(1, len(g)):
     for j in range(1, len(g[i])):
-        if g[i][j]=='*' and len(ns:=getNeighbors(g, i, j))>1:
-            ns = remDupes([getnum(g, y, x) for y,x in ns])
+        if g[i][j]=='*':
+            ns = remDupes([findNum(g, y, x) for y,x in getNeighbors(g, i, j)])
             if len(ns)!=2:
                 continue
             tmp = 1
@@ -50,7 +50,7 @@ print(tot)
 
 # import sys
 
-# def getnum(g: list[str], y: int, x: int) -> [(int, int)]:
+# def findNum(g: list[str], y: int, x: int) -> [(int, int)]:
 #     s = [(y,x)]
 #     f, b = (x+1, x-1)
 #     while f<len(g[y]) and g[y][f].isnumeric():
@@ -85,7 +85,7 @@ print(tot)
 
 # nums = []
 # for y,x in ns:
-#     n = getnum(g, y, x)
+#     n = findNum(g, y, x)
 #     if n not in nums:
 #         nums.append(n)
 # for n in nums:
