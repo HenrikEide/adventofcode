@@ -7,32 +7,30 @@ for i in range(0, len(seeds), 2):
 maps = [m.split('\n')[1:] for m in maps][::-1]
 maps = [[list(map(int,l.split())) for l in m] for m in maps]
 
-def inSeedranges(loc, seedRanges=seedRanges):
+def inSeedRanges(loc, seedRanges=seedRanges):
     for b,t in seedRanges:
         if b <= loc <= t:
             return True
     return False
 
-def processMap(loc, m):
+def applyMap(loc, m):
     for line in m:
         d, s, r = line
         if d <= loc <= (d + r):
             return s + loc - d
     return loc
 
-def getSeed(loc, ms=maps):
+def applyMaps(loc, ms=maps):
     for m in ms:
-        loc = processMap(loc, m)
+        loc = applyMap(loc, m)
     return loc
 
 loc = 0
 while 1:
     curr = loc
-    if inSeedranges(getSeed(curr)):
+    if inSeedRanges(applyMaps(curr)):
         break
     loc += 1
-    if loc % 1000000 == 0:
-        print(loc)
 
 print(loc)
 
