@@ -28,9 +28,9 @@ print(tot)
 # tot = 0
 # for i,l in enumerate(ls):
 #     g = 0
-#     for cs in l:
-#         for c in cs.split(','):
-#             n,c = c.split()
+#     for cards in l:
+#         for card in cards.split(','):
+#             n,c = card.split()
 #             n = int(n)
 #             match c:
 #                 case 'blue':
