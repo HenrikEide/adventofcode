@@ -1,21 +1,38 @@
 import sys
 seeds, *maps = sys.stdin.read().split('\n\n')
 seeds = [int(s) for s in seeds.split(':')[1].split()]
-newSeeds = []
+seedRanges = []
 for i in range(0, len(seeds), 2):
-    newSeeds.extend(range(seeds[i], seeds[i]+seeds[i+1]))
-print(len(newSeeds))
-maps = [m.split('\n')[1:] for m in maps]
-loc = 2**32
-for seed in newSeeds:
-    curr = seed
-    for m in maps:
-        for line in [l.split() for l in m]:
-            d, s, r = map(int, line)
-            if s <= curr <= (s + r):
-                curr = d + curr - s
-                break
-    loc = min(loc, curr)
+    seedRanges.append((seeds[i], seeds[i]+seeds[i+1]))
+maps = [m.split('\n')[1:] for m in maps][::-1]
+maps = [[list(map(int,l.split())) for l in m] for m in maps]
+
+def inSeedranges(loc, seedRanges=seedRanges):
+    for b,t in seedRanges:
+        if b <= loc <= t:
+            return True
+    return False
+
+def processMap(loc, m):
+    for line in m:
+        d, s, r = line
+        if d <= loc <= (d + r):
+            return s + loc - d
+    return loc
+
+def getSeed(loc, ms=maps):
+    for m in ms:
+        loc = processMap(loc, m)
+    return loc
+
+loc = 0
+while 1:
+    curr = loc
+    if inSeedranges(getSeed(curr)):
+        break
+    loc += 1
+    if loc % 1000000 == 0:
+        print(loc)
 
 print(loc)
 
