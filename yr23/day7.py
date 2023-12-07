@@ -5,13 +5,12 @@ from functools import cmp_to_key
 cards = ['A','K','Q','T','9','8','7','6','5','4','3','2','J']
 
 def getType(hand: list[str]) -> int:
-    card_count = Counter(hand)
-    jcount = card_count.pop('J', 0)
-    maxCard = max(card_count, key=card_count.get, default='')
-    for card in hand:
-        if card=='J':
-            card_count[maxCard] = min(card_count[maxCard]+1, 5)
-    count = sorted(list(card_count.values())+[jcount*(not maxCard)], reverse=True)
+    count = Counter(hand)
+    jcount = count.pop('J', 0)
+    maxCard = max(count, key=count.get, default='')
+    for _ in range(jcount):
+        count[maxCard] = min(count[maxCard]+1, 5)
+    count = sorted(list(count.values())+[jcount*(not maxCard)], reverse=True)
     match count:
         case [5,*_]: return 1
         case [4,*_]: return 2
@@ -33,10 +32,11 @@ def compare(hand1: list[str], hand2: list[str]) -> int:
             return -1
     return 0
 
-hands = sorted([x.split() for x in sys.stdin.readlines()], key=cmp_to_key(compare))
+ls = [x.split() for x in sys.stdin.readlines()]
+hands = sorted(ls, key=cmp_to_key(compare))
 ans = 0
-for i,v in enumerate([x[1] for x in hands]):
-    ans += (i+1)*int(v)
+for i,bet in enumerate([int(x[1]) for x in hands]):
+    ans += (i+1)*bet
 print(ans)
 
 
