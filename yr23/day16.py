@@ -49,3 +49,26 @@ while curr:
     eTiles.update(curr)
 
 print(len(set([x[0] for x in list(eTiles)])))
+
+# Part 2
+
+allCurr = []
+for i in range(len(grid)):
+    allCurr.append(((i,0),(0,1)))
+    allCurr.append(((i,len(grid[0])-1),(0,-1)))
+for i in range(len(grid[0])):
+    allCurr.append(((0,i),(1,0)))
+    allCurr.append(((len(grid)-1,i),(-1,0)))
+
+maxE = 0
+for curr in allCurr:
+    curr = [curr]
+    eTiles = set(curr)
+    while curr:
+        new = []
+        for beam in curr:
+            new += step(grid,beam)
+        curr = checkBeams(grid,eTiles,new)
+        eTiles.update(curr)
+    maxE = max(maxE,len(set([x[0] for x in list(eTiles)])))
+print(maxE)
