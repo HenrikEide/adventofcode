@@ -27,5 +27,5 @@ print(ans)
 # Part 1:
 ans = 0
 for s in seq:
-    print(hash(s[:2]))
+    ans += hash(s)
 print(ans)
