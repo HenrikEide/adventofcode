@@ -13,23 +13,17 @@ def get(grid, y, x) -> str:
     except IndexError:
         return '#'
 
-def bfs(grid, start, steps=64) -> int:
-    y,x = start
-    visited = set()
-    queue = [(x,y,0)]
-    while queue:
-        y,x,s = queue.pop(0)
-        if s == steps:
-            continue
-        for dy,dx in [(0,1),(1,0),(0,-1),(-1,0)]:
-            if len(grid[0]) <= (nx:=x+dx) or nx < 0 or len(grid) <= (ny:=y+dy) or ny < 0:
-                continue
-            if (nx,ny) in visited or get(grid, ny, nx) == '#':
-                continue
-            visited.add((ny,nx))
-            queue.append((ny,nx,s+1))
-    print(visited)
-    return len(visited)
+def takeSteps(grid, start, steps=64) -> int:
+    curr = [(start)]
+    nxt = []
+    for _ in range(steps):
+        for x,y in curr:
+            for dx,dy in [(0,1),(0,-1),(1,0),(-1,0)]:
+                if get(grid,y+dy,x+dx) != '#':
+                    nxt.append((x+dx,y+dy))
+        curr = list(set(nxt))
+        nxt = []
+    return len(curr)
 
-print(bfs(grid, findS(grid), 6))
+print(takeSteps(grid, findS(grid)))
         
