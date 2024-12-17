@@ -19,12 +19,12 @@ print(tot)
 
 # Part 2
 def fullCheck(r: list[int]) -> int:
-    if safeCheck(r) > 0:
+    if safeCheck(r):
         return 1
     for i in range(0, len(r)):
         cp = r.copy()
         cp.pop(i)
-        if safeCheck(cp) > 0:
+        if safeCheck(cp):
             return 1
     return 0
 
