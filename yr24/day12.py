@@ -17,12 +17,23 @@ def findRegion(y, x, visited):
     return region
 
 def findPerimiter(region):
-    p = 0
+    p = []
     for y, x in region:
         for dy, dx in dirs:
             if (y + dy, x + dx) not in region:
-                p += 1
+                p.append((y, x, dy, dx))
     return p
+
+def findSides(p):
+    sp = 0
+    for y, x, dy, dx in p:
+        if (dy, dx) in [(0, 1), (0, -1)]:
+            if (y+1, x, dy, dx) not in p:
+                sp += 1
+        else:
+            if (y, x+1, dy, dx) not in p:
+                sp += 1
+    return sp
 
 regions = []
 for y, row in enumerate(xs):
@@ -34,4 +45,6 @@ for y, row in enumerate(xs):
 
 areas = [len(r) for r in regions]
 perimiters = [findPerimiter(r) for r in regions]
-print(sum([a*p for a, p in zip(areas, perimiters)]))
+print(sum([a*len(p) for a, p in zip(areas, perimiters)]))
+print(sum([a*findSides(p) for a, p in zip(areas, perimiters)]))
+
